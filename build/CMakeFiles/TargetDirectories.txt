@@ -1,0 +1,3 @@
+/home/domhankle/dev/dominance/build/CMakeFiles/Dominance.dir
+/home/domhankle/dev/dominance/build/CMakeFiles/edit_cache.dir
+/home/domhankle/dev/dominance/build/CMakeFiles/rebuild_cache.dir
