@@ -11,6 +11,6 @@ Here are the current dependencies needed by developers:
 
 `libxcursor` - Can be installed through `sudo apt-get install libxcursor-dev`
 
-## Building Dominance
+## Third Party Libraries used in Dominance
 
-
+`SFML-2.6.1`
