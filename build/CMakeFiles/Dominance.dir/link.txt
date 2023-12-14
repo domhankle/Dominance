@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/Dominance.dir/src/Dominance.cpp.o -o Dominance  -Wl,-rpath,/home/domhankle/dev/dominance/deps/x86_64-linux-gnu/SFML-2.6.1/lib ../deps/x86_64-linux-gnu/SFML-2.6.1/lib/libsfml-graphics-d.so.2.6.1 ../deps/x86_64-linux-gnu/SFML-2.6.1/lib/libsfml-window-d.so.2.6.1 ../deps/x86_64-linux-gnu/SFML-2.6.1/lib/libsfml-system-d.so.2.6.1 
