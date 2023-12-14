@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -isystem /home/domhankle/dev/dominance/deps/x86_64-linux-gnu/SFML-2.6.1/include
 
-CXX_FLAGS = 
+CXX_FLAGS = -std=gnu++11
 

@@ -92,6 +92,9 @@ Dominance_EXTERNAL_OBJECTS =
 
 Dominance: CMakeFiles/Dominance.dir/src/Dominance.cpp.o
 Dominance: CMakeFiles/Dominance.dir/build.make
+Dominance: ../deps/x86_64-linux-gnu/SFML-2.6.1/lib/libsfml-graphics-d.so.2.6.1
+Dominance: ../deps/x86_64-linux-gnu/SFML-2.6.1/lib/libsfml-window-d.so.2.6.1
+Dominance: ../deps/x86_64-linux-gnu/SFML-2.6.1/lib/libsfml-system-d.so.2.6.1
 Dominance: CMakeFiles/Dominance.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/domhankle/dev/dominance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Dominance"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Dominance.dir/link.txt --verbose=$(VERBOSE)
