@@ -31,17 +31,9 @@ namespace sf
 {
 namespace priv
 {
-template <typename T>
-std::unique_ptr<SoundFileReader> createReader()
-{
-    return std::make_unique<T>();
+    template <typename T> SoundFileReader* createReader() {return new T;}
+    template <typename T> SoundFileWriter* createWriter() {return new T;}
 }
-template <typename T>
-std::unique_ptr<SoundFileWriter> createWriter()
-{
-    return std::make_unique<T>();
-}
-} // namespace priv
 
 ////////////////////////////////////////////////////////////
 template <typename T>
@@ -51,7 +43,9 @@ void SoundFileFactory::registerReader()
     unregisterReader<T>();
 
     // Create a new factory with the functions provided by the class
-    const ReaderFactory factory{&T::check, &priv::createReader<T>};
+    ReaderFactory factory;
+    factory.check = &T::check;
+    factory.create = &priv::createReader<T>;
 
     // Add it
     s_readers.push_back(factory);
@@ -63,11 +57,13 @@ template <typename T>
 void SoundFileFactory::unregisterReader()
 {
     // Remove the instance(s) of the reader from the array of factories
-    s_readers.erase(std::remove_if(s_readers.begin(),
-                                   s_readers.end(),
-                                   [](const ReaderFactory& readerFactory)
-                                   { return readerFactory.create == &priv::createReader<T>; }),
-                    s_readers.end());
+    for (ReaderFactoryArray::iterator it = s_readers.begin(); it != s_readers.end(); )
+    {
+        if (it->create == &priv::createReader<T>)
+            it = s_readers.erase(it);
+        else
+            ++it;
+    }
 }
 
 ////////////////////////////////////////////////////////////
@@ -78,7 +74,9 @@ void SoundFileFactory::registerWriter()
     unregisterWriter<T>();
 
     // Create a new factory with the functions provided by the class
-    const WriterFactory factory{&T::check, &priv::createWriter<T>};
+    WriterFactory factory;
+    factory.check = &T::check;
+    factory.create = &priv::createWriter<T>;
 
     // Add it
     s_writers.push_back(factory);
@@ -90,11 +88,13 @@ template <typename T>
 void SoundFileFactory::unregisterWriter()
 {
     // Remove the instance(s) of the writer from the array of factories
-    s_writers.erase(std::remove_if(s_writers.begin(),
-                                   s_writers.end(),
-                                   [](const WriterFactory& writerFactory)
-                                   { return writerFactory.create == &priv::createWriter<T>; }),
-                    s_writers.end());
+    for (WriterFactoryArray::iterator it = s_writers.begin(); it != s_writers.end(); )
+    {
+        if (it->create == &priv::createWriter<T>)
+            it = s_writers.erase(it);
+        else
+            ++it;
+    }
 }
 
 } // namespace sf

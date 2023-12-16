@@ -21,10 +21,10 @@ target_link_libraries(${PROJECT_NAME}
                       gmock_main
                       gtest
                       gtest_main
-                      sfml-graphics-s
-                      sfml-window-s
-                      sfml-system-s
-                      sfml-network-s
-                      sfml-audio-s
+                      sfml-graphics
+                      sfml-window
+                      sfml-system
+                      sfml-network
+                      sfml-audio
                       ${SFML_DEPS}
                      )

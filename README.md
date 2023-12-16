@@ -22,9 +22,8 @@ This script will install all the necessary package dependencies for SFML develop
   ```
 - SFML
   ```
-  libsfml-audio-s
-  libsfml-network-s
-  libsfml-window-s
-  libsfml-graphics-s
-  libsfml-system-s
+  libsfml-aduio
+  libsfml-graphics
+  libsfml-network
+  libsfml-system
   ```

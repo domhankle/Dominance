@@ -22,17 +22,15 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#ifndef SFML_VIEW_HPP
+#define SFML_VIEW_HPP
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Export.hpp>
-
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Transform.hpp>
-
-#include <SFML/System/Angle.hpp>
 #include <SFML/System/Vector2.hpp>
 
 
@@ -45,13 +43,14 @@ namespace sf
 class SFML_GRAPHICS_API View
 {
 public:
+
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor
     ///
     /// This constructor creates a default view of (0, 0, 1000, 1000)
     ///
     ////////////////////////////////////////////////////////////
-    View() = default;
+    View();
 
     ////////////////////////////////////////////////////////////
     /// \brief Construct the view from a rectangle
@@ -73,12 +72,34 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Set the center of the view
     ///
+    /// \param x X coordinate of the new center
+    /// \param y Y coordinate of the new center
+    ///
+    /// \see setSize, getCenter
+    ///
+    ////////////////////////////////////////////////////////////
+    void setCenter(float x, float y);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Set the center of the view
+    ///
     /// \param center New center
     ///
     /// \see setSize, getCenter
     ///
     ////////////////////////////////////////////////////////////
     void setCenter(const Vector2f& center);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Set the size of the view
+    ///
+    /// \param width  New width of the view
+    /// \param height New height of the view
+    ///
+    /// \see setCenter, getCenter
+    ///
+    ////////////////////////////////////////////////////////////
+    void setSize(float width, float height);
 
     ////////////////////////////////////////////////////////////
     /// \brief Set the size of the view
@@ -95,12 +116,12 @@ public:
     ///
     /// The default rotation of a view is 0 degree.
     ///
-    /// \param angle New angle
+    /// \param angle New angle, in degrees
     ///
     /// \see getRotation
     ///
     ////////////////////////////////////////////////////////////
-    void setRotation(Angle angle);
+    void setRotation(float angle);
 
     ////////////////////////////////////////////////////////////
     /// \brief Set the target viewport
@@ -109,7 +130,7 @@ public:
     /// view are displayed, expressed as a factor (between 0 and 1)
     /// of the size of the RenderTarget to which the view is applied.
     /// For example, a view which takes the left side of the target would
-    /// be defined with View.setViewport(sf::FloatRect({0.f, 0.f}, {0.5f, 1.f})).
+    /// be defined with View.setViewport(sf::FloatRect(0, 0, 0.5, 1)).
     /// By default, a view has a viewport which covers the entire target.
     ///
     /// \param viewport New viewport rectangle
@@ -118,30 +139,6 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     void setViewport(const FloatRect& viewport);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Set the target scissor rectangle
-    ///
-    /// The scissor rectangle, expressed as a factor (between 0 and 1) of
-    /// the RenderTarget, specifies the region of the RenderTarget whose
-    /// pixels are able to be modified by draw or clear operations.
-    /// Any pixels which lie outside of the scissor rectangle will
-    /// not be modified by draw or clear operations.
-    /// For example, a scissor rectangle which only allows modifications
-    /// to the right side of the target would be defined
-    /// with View.setScissor(sf::FloatRect({0.5f, 0.f}, {0.5f, 1.f})).
-    /// By default, a view has a scissor rectangle which allows
-    /// modifications to the entire target. This is equivalent to
-    /// disabling the scissor test entirely. Passing the default
-    /// scissor rectangle to this function will also disable
-    /// scissor testing.
-    ///
-    /// \param scissor New scissor rectangle
-    ///
-    /// \see getScissor
-    ///
-    ////////////////////////////////////////////////////////////
-    void setScissor(const FloatRect& scissor);
 
     ////////////////////////////////////////////////////////////
     /// \brief Reset the view to the given rectangle
@@ -178,12 +175,12 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Get the current orientation of the view
     ///
-    /// \return Rotation angle of the view
+    /// \return Rotation angle of the view, in degrees
     ///
     /// \see setRotation
     ///
     ////////////////////////////////////////////////////////////
-    Angle getRotation() const;
+    float getRotation() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the target viewport rectangle of the view
@@ -196,14 +193,15 @@ public:
     const FloatRect& getViewport() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the scissor rectangle of the view
+    /// \brief Move the view relatively to its current position
     ///
-    /// \return Scissor rectangle, expressed as a factor of the target size
+    /// \param offsetX X coordinate of the move offset
+    /// \param offsetY Y coordinate of the move offset
     ///
-    /// \see setScissor
+    /// \see setCenter, rotate, zoom
     ///
     ////////////////////////////////////////////////////////////
-    const FloatRect& getScissor() const;
+    void move(float offsetX, float offsetY);
 
     ////////////////////////////////////////////////////////////
     /// \brief Move the view relatively to its current position
@@ -218,12 +216,12 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Rotate the view relatively to its current orientation
     ///
-    /// \param angle Angle to rotate
+    /// \param angle Angle to rotate, in degrees
     ///
     /// \see setRotation, move, zoom
     ///
     ////////////////////////////////////////////////////////////
-    void rotate(Angle angle);
+    void rotate(float angle);
 
     ////////////////////////////////////////////////////////////
     /// \brief Resize the view rectangle relatively to its current size
@@ -267,21 +265,24 @@ public:
     const Transform& getInverseTransform() const;
 
 private:
+
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    Vector2f  m_center{500, 500};           //!< Center of the view, in scene coordinates
-    Vector2f  m_size{1000, 1000};           //!< Size of the view, in scene coordinates
-    Angle     m_rotation;                   //!< Angle of rotation of the view rectangle
-    FloatRect m_viewport{{0, 0}, {1, 1}};   //!< Viewport rectangle, expressed as a factor of the render-target's size
-    FloatRect m_scissor{{0, 0}, {1, 1}};    //!< Scissor rectangle, expressed as a factor of the render-target's size
-    mutable Transform m_transform;          //!< Precomputed projection transform corresponding to the view
-    mutable Transform m_inverseTransform;   //!< Precomputed inverse projection transform corresponding to the view
-    mutable bool      m_transformUpdated{}; //!< Internal state telling if the transform needs to be updated
-    mutable bool      m_invTransformUpdated{}; //!< Internal state telling if the inverse transform needs to be updated
+    Vector2f          m_center;              //!< Center of the view, in scene coordinates
+    Vector2f          m_size;                //!< Size of the view, in scene coordinates
+    float             m_rotation;            //!< Angle of rotation of the view rectangle, in degrees
+    FloatRect         m_viewport;            //!< Viewport rectangle, expressed as a factor of the render-target's size
+    mutable Transform m_transform;           //!< Precomputed projection transform corresponding to the view
+    mutable Transform m_inverseTransform;    //!< Precomputed inverse projection transform corresponding to the view
+    mutable bool      m_transformUpdated;    //!< Internal state telling if the transform needs to be updated
+    mutable bool      m_invTransformUpdated; //!< Internal state telling if the inverse transform needs to be updated
 };
 
 } // namespace sf
+
+
+#endif // SFML_VIEW_HPP
 
 
 ////////////////////////////////////////////////////////////
@@ -304,34 +305,6 @@ private:
 /// rectangle doesn't have the same size as the viewport, its
 /// contents will be stretched to fit in.
 ///
-/// The scissor rectangle allows for specifying regions of the
-/// render target to which modifications can be made by draw
-/// and clear operations. Only pixels that are within the region
-/// will be able to be modified. Pixels outside of the region will
-/// not be modified by draw or clear operations.
-///
-/// Certain effects can be created by either using the viewport or
-/// scissor rectangle. While the results appear identical, there
-/// can be times where one method should be preferred over the other.
-/// Viewport transformations are applied during the vertex processing
-/// stage of the graphics pipeline, before the primitives are
-/// rasterized into fragments for fragment processing. Since
-/// viewport processing has to be performed and cannot be disabled,
-/// effects that are performed using the viewport transform are
-/// basically free performance-wise. Scissor testing is performed in
-/// the per-sample processing stage of the graphics pipeline, after
-/// fragment processing has been performed. Because per-sample
-/// processing is performed at the last stage of the pipeline,
-/// fragments that are discarded at this stage will cause the
-/// highest waste of GPU resources compared to any method that
-/// would have discarded vertices or fragments earlier in the
-/// pipeline. There are situations in which scissor testing has
-/// to be used to control whether fragments are discarded or not.
-/// An example of such a situation is when performing the viewport
-/// transform on vertices is necessary but a subset of the generated
-/// fragments should not have an effect on the stencil buffer or
-/// blend with the color buffer.
-//
 /// To apply a view, you have to assign it to the render target.
 /// Then, objects drawn in this render target will be
 /// affected by the view until you use another view.
@@ -342,13 +315,13 @@ private:
 /// sf::View view;
 ///
 /// // Initialize the view to a rectangle located at (100, 100) and with a size of 400x200
-/// view.reset(sf::FloatRect({100, 100}, {400, 200}));
+/// view.reset(sf::FloatRect(100, 100, 400, 200));
 ///
 /// // Rotate it by 45 degrees
-/// view.rotate(sf::degrees(45));
+/// view.rotate(45);
 ///
 /// // Set its target viewport to be half of the window
-/// view.setViewport(sf::FloatRect({0.f, 0.f}, {0.5f, 1.f}));
+/// view.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
 ///
 /// // Apply it
 /// window.setView(view);
