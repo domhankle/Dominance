@@ -30,12 +30,14 @@ setupSSH()
   ssh-add $DOMINANCE_SSH_KEY
 }
 
-cloneDominanceRepo()
+configureDominanceRepo()
 {
-  echo "Cloning dominance in ${DEV_DIR}..."
+  cd ../..
+  mv ./dominance ${DEV_DIR}
+  echo "moving dominance into ${DEV_DIR}..."
   cd ${DEV_DIR}
-  git clone git@github.com:domhankle/Dominance.git
-  
+    
+
   echo Adding ${DEV_DIR}/dominance to .bashrc...
   local toAppend=$(cat << EOI
 \n
@@ -48,18 +50,43 @@ EOI
 
 cloneSFMLRepo()
 {
+  setupSSH
+  echo Cloning SFML Repo in ${DEV_DIR}...
+  cd ${DEV_DIR}
+  git clone git@github.com:SFML/SFML.git
+  
+  echo Adding ${DEV_DIR}/SFML to .bashrc...
+  local toAppend=$(cat << EOI
+\n
+export SFML_REPO=${DEV_DIR}/SFML
+EOI
+)
 }
 
 cloneGoogleTestRepo()
 {
+  echo Cloning GoogleTest Repo in ${DEV_DIR}...
+  cd ${DEV_DIR}
+  git clone git@github.com:google/googletest.git
+
+  echo Adding ${DEV_DIR}/googletest to .bashrc...
+  local toAppend=$(cat << EOI
+\n
+export GOOGLE_TEST_REPO=${DEV_DIR}/googletest
+EOI
+) 
+
 }
 
 buildDeps()
 {
+  cloneSFMLRepo
+  cloneGoogleTestRepo
+  ../deps/scripts/sfml-deps.sh
+  ../deps/scripts/dependencies.sh
 }
 
 promptForDevDir
 makeLibReposDir
-setupSSH
-cloneDominanceRepo
+configureDominanceRepo
 buildDeps
