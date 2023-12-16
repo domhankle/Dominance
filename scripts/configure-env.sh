@@ -11,7 +11,7 @@ promptForDevDir()
   echo Adding ${DEV_DIR} to .bashrc...
   local toAppend=$(cat << EOI
 \n
-export DEV_DIR=${DEV_DIR}
+export DOMINANCE_DEV_DIR=${DEV_DIR}
 EOI
 )
 
