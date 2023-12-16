@@ -2,18 +2,29 @@
 
 Dominance is going to be a "Game Engine" that I will utilize in future games I develop. I say "Game Engine" because I don't know how extensive it will actually become.
 
-Under the hood, Dominance contains the SFML library, which you can find under the `deps` directory.
-
 ## Developer Requirements
 
 Currently, Dominance development is only supported on Ubuntu. For developers with Windows machines, they can develop on Dominance through WSL.
-Due to internal use of the SFML library, developers will need to install some dependencies for the SFML library. A dependency script is hopefully coming soon to make this easier.
+Due to internal use of the SFML library, developers will need to install some dependencies for the SFML library.
 
-Here are the current dependencies needed by developers:
+A dependency script is located at the following location: `scripts/dependencies.sh`
 
-`libxcursor` - Can be installed through `sudo apt-get install libxcursor-dev`
+This script will install all the necessary package dependencies for SFML development. It is necessary to run this script in order to build Dominance.
 
 ## Third Party Libraries used in Dominance
 
-`SFML-2.6.1`
-`googletest`
+- googletest
+  ```
+  libgmock
+  libgmock_main
+  libgtest
+  libgtest_main
+  ```
+- SFML
+  ```
+  libsfml-audio-s
+  libsfml-network-s
+  libsfml-window-s
+  libsfml-graphics-s
+  libsfml-system-s
+  ```
