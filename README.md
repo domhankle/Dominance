@@ -4,12 +4,7 @@ Dominance is going to be a "Game Engine" that I will utilize in future games I d
 
 ## Developer Requirements
 
-Currently, Dominance development is only supported on Ubuntu. For developers with Windows machines, they can develop on Dominance through WSL.
-Due to internal use of the SFML library, developers will need to install some dependencies for the SFML library.
-
-A dependency script is located at the following location: `scripts/dependencies.sh`
-
-This script will install all the necessary package dependencies for SFML development. It is necessary to run this script in order to build Dominance.
+Developers who wish to contribute, see [here](https://github.com/domhankle/Dominance/wiki/Setting-up-Development-Environment) on how to setup your development environment.
 
 ## Third Party Libraries used in Dominance
 
